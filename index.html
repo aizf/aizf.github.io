@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+    <title>Title</title>
+</head>
+<style>
+
+    .links line {
+        stroke: #aaa;
+    }
+
+    .nodes circle {
+        pointer-events: all;
+        stroke: none;       /*描边*/
+        stroke-width: 40px;
+    }
+
+    /*.nodes :hover circle {*/
+        /*pointer-events: all;*/
+        /*stroke: none;*/
+        /*stroke-width: 70px;*/
+        /*fill:red;*/
+    /*}*/
+</style>
+<body>
+
+<div id="view">
+    <svg width="960" height="600"></svg>
+</div>
+<div id="ctrl"></div>
+
+</body>
+<script src="view.js"></script>
+<script src="ctrl.js"></script>
+</html>
