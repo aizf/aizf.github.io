@@ -2,25 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="https://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.js"></script>
     <script src="https://d3js.org/d3.v4.js"></script>
     <!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
     <title>Title</title>
 </head>
 <style>
 
-    .links line {
+    line {
         stroke: #aaa;
     }
 
-    .nodes circle {
+    circle {
         pointer-events: all;
         stroke: none;       /*描边*/
-        stroke-width: 40px;
+        fill-opacity: 0.6;
+    }
+
+    .display {
+        /**/
     }
 
     .selected {
         fill: red;
         stroke: brown;
+    }
+
+    .saved {
+        display: none;
+    }
+
+    .thumb {
+
     }
 
     /*.nodes :hover circle {*/
@@ -34,10 +47,14 @@
 
 <div id="view" style="border:1px solid #00ff11">
     <svg width="960" height="600"></svg>
+    <p>
+        <button onclick="saveData()">save</button>
+    </p>
 </div>
 <div id="ctrl"></div>
 
 </body>
+<script src="vars.js"></script>
 <script src="view.js"></script>
 <script src="ctrl.js"></script>
 </html>
