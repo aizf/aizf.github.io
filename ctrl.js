@@ -1,8 +1,10 @@
 var c_ul=d3.select("#ctrl")
     .append("ul");
 
+$("#view > form > label > input[type=\"checkbox\"]")
+    .on("change",function () {
 
-
+    });
 
 
 
@@ -127,5 +129,4 @@ function importData() {
         .links(link.data());
 
     simulation.alphaTarget(0.2).restart();
-
 }
