@@ -15,6 +15,10 @@ var simulation = d3.forceSimulation()
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width / 2, height / 2));
 
+var brush = d3.brush()
+    .extent([[0, 0], [width, height]])
+    .on("start brush", brushed);
+
 d3.json(".\\data\\miserables.json", function(error, graph) {
     if (error) throw error;
 
@@ -52,11 +56,7 @@ d3.json(".\\data\\miserables.json", function(error, graph) {
     simulation.force("link")
         .links(link.data());
 
-    var brush = d3.brush()
-        .extent([[0, 0], [width, height]])
-        .on("start brush", brushed);
-
-    vis.append("g")
+    brushG=vis.append("g")
         .call(brush)
         .attr("class", "brush")
         .call(brush.move, [[0, 0],[1,1]]);

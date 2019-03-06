@@ -3,10 +3,19 @@ var c_ul=d3.select("#ctrl")
 
 $("#view > form > label > input[type=\"checkbox\"]")
     .on("change",function () {
-
+        if(this.checked){
+            brushG.style("display","inline");
+        }
+        else {
+            brushG.style("display","none");
+        }
     });
 
-
+var treeNodesSum=0;
+var treeNodesRelation=function (parentIndex,Index) {
+    return {"parentIndex":parentIndex,"Index":Index};
+};
+var treeNodesRelations=[];
 
 
 
@@ -37,6 +46,7 @@ function createThumb(svg,saving) {
                 return x.cloneNode(true);
             })
     );
+    treeNodesSum+=1;
 
     // console.log(tNodes);
 
@@ -51,7 +61,7 @@ function createThumb(svg,saving) {
     var littleVis=c_ul.append("li")
         .append("svg")
         .on("click",importData)
-        .append("g")
+        .append("g")    //littleVis
         .style("pointer-events", "all");
 
     $(littleVis.node()).append(tNodes);
@@ -64,6 +74,9 @@ function createThumb(svg,saving) {
     $(littleVis.node()).append(tLinks);
     littleVis.attr("transform", "translate(0,0) scale(" + 0.3 + ")")
         .datum(saving);     //选取节点数据(d3-selection)绑定在 g
+
+    littleVis.append("g")
+        .datum({"index":treeNodesSum}); //g > g
 }
 
 function importData() {
