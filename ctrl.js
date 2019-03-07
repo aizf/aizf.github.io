@@ -1,3 +1,12 @@
+var flowVisWidth=960;
+var flowVisHeight=2400;
+var flowVis=d3.select("#ctrl")
+    .append("svg")
+    .attr("width", flowVisWidth)
+    .attr("height", flowVisHeight)
+    .style("display","none");
+var flowVis_g=flowVis.append("g")
+    .attr("transform", "translate(40,0)");
 var c_ul=d3.select("#ctrl")
     .append("ul");
 
@@ -11,27 +20,13 @@ $("#view > form > label > input[type=\"checkbox\"]")
         }
     });
 
+//缩略图的个数，及给新的编号
 var treeNodesSum=0;
 var treeNodesRelation=function (parentIndex,Index) {
-    return {"parentIndex":parentIndex,"Index":Index};
+    return {"parentIndex":parentIndex,"index":Index};
 };
-var treeNodesRelations=[];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//缩略图的关系
+var treeNodesRelations=[treeNodesRelation("",0)];
 
 // .filter(function () {
 //     return d3.select(this).attr("class") !== "saved";
@@ -77,9 +72,18 @@ function createThumb(svg,saving) {
 
     littleVis.append("g")
         .datum({"index":treeNodesSum}); //g > g
+
+    treeNodesRelations.push(
+        treeNodesRelation(
+            thumbJustNow ? thumbJustNow.select("g > g").datum().index : 0,
+            treeNodesSum
+        )
+    );
 }
 
 function importData() {
+    thumbJustNow=d3.select(this);
+
     vis.selectAll(".selected")
         .classed("selected",false);
     // console.log(d3.event);
@@ -142,4 +146,51 @@ function importData() {
         .links(link.data());
 
     simulation.alphaTarget(0.2).restart();
+}
+
+function showFlow() {
+    flowVis.style("display","inline");  //TODO
+
+    var root=d3.stratify()
+        .id(function(d) { return d.index; })
+        .parentId(function(d) { return d.parentIndex; })
+        (treeNodesRelations)
+        .sort(function(a, b) { return (a.height - b.height) || a.id.localeCompare(b.id); });
+    // console.log(root);
+
+    var tree = d3.tree()
+        .size([height - 400, width - 160]);
+    tree(root);
+
+    var link = flowVis_g.selectAll(".flowLink")
+        .data(root.descendants().slice(1))
+        .enter().append("path")
+        .attr("class", "flowLink")
+        .attr("d", diagonal)
+        .style("fill","none")
+        .style("stroke","#555")
+        .style("stroke-opacity","0.4")
+        .style("stroke-width","1.5px");
+
+    var node = flowVis_g.selectAll(".flowNode")
+        .data(root.descendants())
+        .enter().append("g")
+        .attr("class", "flowNode")
+        .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+    console.log(node);
+    node.append("g")
+        .append("circle")
+        .attr("r", 2.5);
+
+    var t = d3.transition().duration(750);
+    node.transition(t).attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+    link.transition(t).attr("d", diagonal);
+
+
+    function diagonal(d) {
+        return "M" + d.y + "," + d.x
+            + "C" + (d.parent.y + 100) + "," + d.x
+            + " " + (d.parent.y + 100) + "," + d.parent.x
+            + " " + d.parent.y + "," + d.parent.x;
+    }
 }

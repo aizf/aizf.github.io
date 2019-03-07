@@ -61,6 +61,7 @@
 
     d3.csv(".\\data\\flare.csv", function(error, data) {
         if (error) throw error;
+        console.log(data);
 
         var root = stratify(data)
             .sort(function(a, b) { return (a.height - b.height) || a.id.localeCompare(b.id); });
