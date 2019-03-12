@@ -37,22 +37,23 @@
     }
 
     /*.nodes :hover circle {*/
-        /*pointer-events: all;*/
-        /*stroke: none;*/
-        /*stroke-width: 70px;*/
-        /*fill:red;*/
+    /*pointer-events: all;*/
+    /*stroke: none;*/
+    /*stroke-width: 70px;*/
+    /*fill:red;*/
     /*}*/
 </style>
 <body>
 
 <div id="view" style="border:1px solid #00ff11">
-    <svg width="960" height="600"></svg>
-    <p>
-        <button onclick="saveData()">save</button>
+    <svg width="960" height="600" style="border:1px solid #305dff"></svg>
+    <br/>
+    <button onclick="saveData()">save</button>
+    <button onclick="showFlow()">showFlow</button>
     <form>
         <label><input type="checkbox" value="enBrush" checked>brush</label>
     </form>
-    </p>
+
 </div>
 <div id="ctrl"></div>
 
