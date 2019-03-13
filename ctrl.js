@@ -1,4 +1,4 @@
-var flowVisWidth=960;
+var flowVisWidth=1800;
 var flowVisHeight=2400;
 var flowVis=d3.select("#ctrl")
     .append("svg")
@@ -209,15 +209,17 @@ function showFlow() {
         .style("stroke-opacity","0.4")
         .style("stroke-width","1px")
         .style("pointer-events", "all")
-        .on("mouseover",function (p) {
-            d3.select(p).select("g")
-                .attr("transform", "translate(0,0) scale(" + 0.7 + ")");
+        .on("mouseover",function () {
+            d3.select(this.parentNode)
+                .select("g")
+                .attr("transform", "translate(0,0) scale(" + 1.2 + ")");
         })
         .on("mouseout",function (p) {
-            d3.select(p).select("g")
+            d3.select(this.parentNode)
+                .select("g")
                 .attr("transform", "translate(0,0) scale(" + 0.3 + ")");
         });
-    node.append("text")
+    flowNode.append("text")
         .text(function(d) {
             return d.id;
         })
