@@ -100,7 +100,7 @@ function dragended(d) {
     d.fy = null;
 }
 
-saveData=function () {
+var saveData=function () {
     var saving= vis.selectAll(".selected")
         .clone(true)
         .classed("selected",false)

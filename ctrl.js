@@ -7,10 +7,11 @@ var flowVis=d3.select("#ctrl")
     .style("display","none")
     .style("pointer-events", "all");
 var flowVis_g=flowVis.append("g")
-    .style("pointer-events", "all")
-    .attr("transform", "translate(40,0)");
+    .style("pointer-events", "all");
 var c_ul=d3.select("#ctrl")
     .append("ul");
+var thumbs_g;
+var showOrHide=false;
 
 $("#view > form > label > input[type=\"checkbox\"]")
     .on("change",function () {
@@ -70,17 +71,21 @@ function createThumb(svg,saving) {
 
     $(littleVis.node()).append(tLinks);
     littleVis.attr("transform", "translate(0,0) scale(" + 0.3 + ")")
-        .datum(saving);     //选取节点数据(d3-selection)绑定在 g
+        .append("g")
+        .attr("class","visData")
+        .datum(saving);     //选取节点数据(d3-selection)绑定在 g > g.visData
 
     littleVis.append("g")
-        .datum({"index":treeNodesSum}); //g > g
+        .attr("class","index")
+        .datum({"index":treeNodesSum}); //g > g.index
 
     treeNodesRelations.push(
         treeNodesRelation(
-            thumbJustNow ? thumbJustNow.select("g > g").datum().index : 0,
+            thumbJustNow ? thumbJustNow.select("g > g.index").datum().index : 0,
             treeNodesSum
         )
     );
+    console.log(treeNodesRelations);
 }
 
 function importData() {
@@ -89,7 +94,7 @@ function importData() {
     vis.selectAll(".selected")
         .classed("selected",false);
     // console.log(d3.event);
-    var sCircles=d3.select(this).select("g").datum();
+    var sCircles=d3.select(this).select("g > g.visData").datum();
 
     link.remove();
     link={};
@@ -150,30 +155,34 @@ function importData() {
     simulation.restart();
 }
 
+//flowInit
+var root;
+var nodeSize=[150,150];
+var tree = d3.tree()
+    .size([height - 400, width - 160])
+    .nodeSize([200,200])
+    .separation(function (a,b) {
+        return a.parent == b.parent ? 1.1 : 1.5;
+    });
+var flowLink;
+var flowNode;
+
 function showFlow() {
+    if(showOrHide)return;
+    showOrHide=true;
     flowVis.style("display","inline");  //TODO
 
-    var root=d3.stratify()
+    root=d3.stratify()
         .id(function(d) { return d.index; })
         .parentId(function(d) { return d.parentIndex; })
         (treeNodesRelations)
         .sort(function(a, b) { return (a.height - b.height) || a.id.localeCompare(b.id); });
     console.log(root);
 
-    var nodeSize=[150,150];
-
-    // var cluster = d3.cluster()
-    //     .size([height, width - 160]);
-    var tree = d3.tree()
-        .size([height - 400, width - 160])
-        .nodeSize(nodeSize)
-        .separation(function (a,b) {
-            return a.parent == b.parent ? 1.1 : 1.5;
-        });
     tree(root);
     console.log(root);
 
-    var link = flowVis_g.selectAll(".flowLink")
+    flowLink = flowVis_g.selectAll(".flowLink")
         .data(root.descendants().slice(1))
         .enter().append("path")
         .attr("class", "flowLink")
@@ -183,7 +192,7 @@ function showFlow() {
         .style("stroke-opacity","0.4")
         .style("stroke-width","1.5px");
 
-    var node = flowVis_g.selectAll(".flowNode")
+    flowNode = flowVis_g.selectAll(".flowNode")
         .data(root.descendants())
         .enter().append("g")
         .attr("class", "flowNode")
@@ -192,14 +201,22 @@ function showFlow() {
         })
         .style("pointer-events", "all");
     // console.log(node);
-    node.append("rect")
+    flowNode.append("rect")         //rect
         .attr("width", nodeSize[0])
         .attr("height", nodeSize[1])
-        .style("fill", "none")
+        .style("fill", "white")
         .style("stroke","#555")
         .style("stroke-opacity","0.4")
         .style("stroke-width","1px")
-        .style("pointer-events", "all");
+        .style("pointer-events", "all")
+        .on("mouseover",function (p) {
+            d3.select(p).select("g")
+                .attr("transform", "translate(0,0) scale(" + 0.7 + ")");
+        })
+        .on("mouseout",function (p) {
+            d3.select(p).select("g")
+                .attr("transform", "translate(0,0) scale(" + 0.3 + ")");
+        });
     node.append("text")
         .text(function(d) {
             return d.id;
@@ -207,10 +224,10 @@ function showFlow() {
         .attr("x",nodeSize[0]/2)
         .attr("y",nodeSize[1]);
 
-    var thumbs_g=c_ul.selectAll("li > svg > g").nodes();
+    thumbs_g=c_ul.selectAll("li > svg > g").nodes();
     thumbs_g.sort(function (a,b) {
-        var x=d3.select(a).select("g").datum().index;
-        var y=d3.select(b).select("g").datum().index;
+        var x=d3.select(a).select("g.index").datum().index;
+        var y=d3.select(b).select("g.index").datum().index;
         if (x < y) {
             return -1;
         } else if (x > y) {
@@ -219,7 +236,7 @@ function showFlow() {
             return 0;
         }
     });
-    node.each(function (d,i) {
+    flowNode.each(function (d,i) {
         if(!i)return;
         // console.log(this);
         // console.log(d);
@@ -250,8 +267,8 @@ function showFlow() {
         // console.log(d3.select(this).attr("transform"));
     });
 
-    console.log(findBottom());
-    flowVis_g.attr("transform","translate(" + 80 + "," + (+findBottom()+nodeSize[1]/2+2) + ")");
+    console.log(findTop());
+    flowVis_g.attr("transform","translate(" + 80 + "," + -(findTop()-nodeSize[1]) + ")");
 
     //////TODO
     // node.append("g")
@@ -274,13 +291,33 @@ function showFlow() {
             + " " + d.parent.y + "," + d.parent.x;
     }
 
-    function findBottom() {
+    function findTop() {
         var y=0;
-        node.each(function (d) {
-            if(d.y>y){
-                y=d.y;
+        flowNode.each(function (d) {
+            // console.log(d.x,d.y);
+            if(+d.x<y){
+                y=+d.x;
             }
         });
         return y;
     }
+}
+
+function hideFlow() {
+    if(!showOrHide)return;
+    showOrHide=false;
+    flowVis.style("display","none");  //TODO
+
+    d3.selectAll(thumbs_g)
+        .attr("transform", "translate(0,0) scale(" + 0.3 + ")");
+    c_ul.selectAll("li > svg")
+        .each(function (d,i) {
+            // console.log(i);
+            // console.log(thumbs_g[i]);
+            // console.log(this);
+            $(this).append(thumbs_g[i]);
+        });
+    flowVis_g.remove();
+    flowVis_g=flowVis.append("g")
+        .style("pointer-events", "all");
 }
