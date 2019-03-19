@@ -62,6 +62,7 @@ function createThumb(svg,saving) {
         .append("g")    //littleVis
         .style("pointer-events", "none");
 
+    $(littleVis.node()).append(tLinks);
     $(littleVis.node()).append(tNodes);
     // console.log(littleVis.selectAll("circle"))
     littleVis.selectAll("circle")
@@ -69,7 +70,6 @@ function createThumb(svg,saving) {
         .classed("saved",false)
         .classed("thumb",true);
 
-    $(littleVis.node()).append(tLinks);
     littleVis.attr("transform", "translate(0,0) scale(" + 0.3 + ")")
         .append("g")
         .attr("class","visData")
@@ -85,7 +85,7 @@ function createThumb(svg,saving) {
             treeNodesSum
         )
     );
-    console.log(treeNodesRelations);
+    // console.log(treeNodesRelations);
 }
 
 function importData() {
