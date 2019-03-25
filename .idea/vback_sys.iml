@@ -9,8 +9,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="vue" level="application" />
-    <orderEntry type="library" name="d3.v4" level="application" />
-    <orderEntry type="library" name="jquery-2.0.2" level="application" />
-    <orderEntry type="library" name="d3.v4" level="application" />
+    <orderEntry type="library" name="d3v4.js" level="project" />
+    <orderEntry type="library" name="d3-sankey.js" level="project" />
+    <orderEntry type="library" name="jquery3.3.1.js" level="project" />
   </component>
 </module>

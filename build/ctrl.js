@@ -97,7 +97,6 @@ function importData() {
     var sCircles=d3.select(this).select("g > g.visData").datum();
 
     link.remove();
-    link={};
 
     node.classed("display",false);
     node.classed("saved",true);
