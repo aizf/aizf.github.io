@@ -1,3 +1,5 @@
+'use strict';
+
 var flowVisWidth=1800;
 var flowVisHeight=2400;
 var flowVis=d3.select("#ctrl")
