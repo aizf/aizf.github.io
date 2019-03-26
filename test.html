@@ -1,135 +1,56 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<style>
-
-    .node circle {
-        fill: #999;
-    }
-
-    .node text {
-        font: 10px sans-serif;
-    }
-
-    .node--internal circle {
-        fill: #555;
-    }
-
-    .node--internal text {
-        text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
-    }
-
-    .link {
-        fill: none;
-        stroke: #555;
-        stroke-opacity: 0.4;
-        stroke-width: 1.5px;
-    }
-
-    form {
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        position: absolute;
-        left: 10px;
-        top: 10px;
-    }
-
-    label {
-        display: block;
-    }
-
-</style>
-<svg width="960" height="2400"></svg>
-<script src="./lib/d3v4.js"></script>
+<html style="height: 100%">
+<head>
+    <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+<div id="container" style="height: 100%"></div>
+<script src="./lib/d3v5.js"></script>
 <script src="./lib/jquery3.3.1.js"></script>
-<script src="./lib/d3-sankey.js"></script>
-<script>
-    sankey = {
-        const sankey = d3.sankey()
-            .nodeAlign(d3[`sankey${align[0].toUpperCase()}${align.slice(1)}`])
-            .nodeWidth(15)
-            .nodePadding(10)
-            .extent([[1, 5], [width - 1, height - 5]]);
-    return ({nodes, links}) => sankey({
-        nodes: nodes.map(d => Object.assign({}, d)),
-        links: links.map(d => Object.assign({}, d))
+<script type="text/javascript" src="./lib/echarts.js"></script>
+<script type="text/javascript">
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+    var option = null;
+    myChart.showLoading();
+    // var data=d3.json("./data/energy.json");
+    $.get('./data/energy.json', function (data) {
+        myChart.hideLoading();
+
+        myChart.setOption(option = {
+            title: {
+                text: 'Sankey Diagram'
+            },
+            tooltip: {
+                trigger: 'item',
+                triggerOn: 'mousemove'
+            },
+            series: [
+                {
+                    type: 'sankey',
+                    data: data.nodes,
+                    links: data.links,
+                    focusNodeAdjacency: 'allEdges',
+                    itemStyle: {
+                        normal: {
+                            borderWidth: 1,
+                            borderColor: '#aaa'
+                        }
+                    },
+                    lineStyle: {
+                        normal: {
+                            color: 'source',
+                            curveness: 0.5
+                        }
+                    }
+                }
+            ]
+        });
     });
-    }
-    format = {
-        const f = d3.format(",.0f");
-    return d => `${f(d)} TWh`;
-    }
-    color = {
-        const color = d3.scaleOrdinal(d3.schemeCategory10);
-    return name => color(name.replace(/ .*/, ""));
-    }
-    data = d3.json("https://gist.githubusercontent.com/mbostock/ca9a0bb7ba204d12974bca90acc507c0/raw/398136b7db83d7d7fd89181b080924eb76041692/energy.json")
-    width = 975;
-    height = 600;
-    chart = {
-        const svg = d3.select(DOM.svg(width, height))
-            .style("width", "100%")
-            .style("height", "auto");
-
-    const {nodes, links} = sankey(data);
-
-    svg.append("g")
-        .attr("stroke", "#000")
-        .selectAll("rect")
-        .data(nodes)
-        .join("rect")
-        .attr("x", d => d.x0)
-        .attr("y", d => d.y0)
-        .attr("height", d => d.y1 - d.y0)
-        .attr("width", d => d.x1 - d.x0)
-        .attr("fill", d => color(d.name))
-        .append("title")
-        .text(d => `${d.name}\n${format(d.value)}`);
-
-    const link = svg.append("g")
-        .attr("fill", "none")
-        .attr("stroke-opacity", 0.5)
-        .selectAll("g")
-        .data(links)
-        .join("g")
-        .style("mix-blend-mode", "multiply");
-
-    if (edgeColor === "path") {
-        const gradient = link.append("linearGradient")
-            .attr("id", d => (d.uid = DOM.uid("link")).id)
-            .attr("gradientUnits", "userSpaceOnUse")
-            .attr("x1", d => d.source.x1)
-            .attr("x2", d => d.target.x0);
-
-        gradient.append("stop")
-            .attr("offset", "0%")
-            .attr("stop-color", d => color(d.source.name));
-
-        gradient.append("stop")
-            .attr("offset", "100%")
-            .attr("stop-color", d => color(d.target.name));
-    }
-
-    link.append("path")
-        .attr("d", d3.sankeyLinkHorizontal())
-        .attr("stroke", d => edgeColor === "none" ? "#aaa"
-            : edgeColor === "path" ? d.uid
-                : edgeColor === "input" ? color(d.source.name)
-                    : color(d.target.name))
-        .attr("stroke-width", d => Math.max(1, d.width));
-
-    link.append("title")
-        .text(d => `${d.source.name} → ${d.target.name}\n${format(d.value)}`);
-
-    svg.append("g")
-        .style("font", "10px sans-serif")
-        .selectAll("text")
-        .data(nodes)
-        .join("text")
-        .attr("x", d => d.x0 < width / 2 ? d.x1 + 6 : d.x0 - 6)
-        .attr("y", d => (d.y1 + d.y0) / 2)
-        .attr("dy", "0.35em")
-        .attr("text-anchor", d => d.x0 < width / 2 ? "start" : "end")
-        .text(d => d.name);
-
-    return svg.node();
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
     }
 </script>
+</body>
+</html>

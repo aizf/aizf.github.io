@@ -324,3 +324,74 @@ function hideFlow() {
     flowVis_g=flowVis.append("g")
         .style("pointer-events", "all");
 }
+
+//TODO  sankey part
+var sankeySelection=d3.select("#ctrl")
+    .insert("div")
+    .attr("width", 960)
+    .attr("height", 600);
+    // .style("display","none");
+var mySankey = echarts.init(sankeySelection.node());
+var mySankeyOption;
+mySankey.showLoading();
+$.get('./data/energy.json', function (data) {
+    mySankey.hideLoading();
+
+    mySankey.setOption(mySankeyOption = {
+        title: {
+            text: 'Sankey Diagram'
+        },
+        tooltip: {
+            trigger: 'item',
+            triggerOn: 'mousemove'
+        },
+        series: [
+            {
+                type: 'sankey',
+                data: data.nodes,
+                links: data.links,
+                focusNodeAdjacency: 'allEdges',
+                itemStyle: {
+                    normal: {
+                        borderWidth: 1,
+                        borderColor: '#aaa'
+                    }
+                },
+                lineStyle: {
+                    normal: {
+                        color: 'source',
+                        curveness: 0.5
+                    }
+                }
+            }
+        ]
+    });
+});
+if (mySankeyOption && typeof mySankeyOption === "object") {
+    mySankey.setOption(mySankeyOption, true);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
