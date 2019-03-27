@@ -51,6 +51,9 @@ d3.json(".\\data\\miserables.json", function(error, graph) {
     node.append("title")
         .text(function(d) { return d.id; });
 
+    node.on("mouseover",mouseover);
+    node.on("mouseout",mouseout);
+
     simulation
         .nodes(node.data())
         .on("tick", ticked);
@@ -90,16 +93,35 @@ function dragstarted(d) {
     d.fx = d.x;
     d.fy = d.y;
 }
-
 function dragged(d) {
     d.fx = d3.event.x;
     d.fy = d3.event.y;
 }
-
 function dragended(d) {
     if (!d3.event.active) simulation.alphaTarget(0);
     d.fx = null;
     d.fy = null;
+}
+
+var opacityNodes;
+var opacityLinks;
+function mouseover(d) {
+    var thisId=d.id;
+    console.log(thisId);
+    opacityLinks=link.filter(function (d) {
+        return d.source.id!==thisId && d.target.id!==thisId;
+    });
+    opacityNodes=node.filter();
+    // console.log(opacityNodes);
+    // console.log(opacityLinks);
+    opacityNodes.style("fill-opacity",0);
+    opacityNodes.style("stroke-opacity",0);
+    opacityLinks.style("stroke-opacity",0);
+}
+function mouseout() {
+    opacityNodes.style("fill-opacity",null);
+    opacityNodes.style("stroke-opacity",null);
+    opacityLinks.style("stroke-opacity",null);
 }
 
 var saveData=function () {

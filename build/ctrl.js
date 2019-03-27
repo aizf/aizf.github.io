@@ -293,7 +293,6 @@ function showFlow() {
             + " " + (d.parent.y + 100) + "," + d.parent.x
             + " " + d.parent.y + "," + d.parent.x;
     }
-
     function findTop() {
         var y=0;
         flowNode.each(function (d) {
@@ -305,7 +304,6 @@ function showFlow() {
         return y;
     }
 }
-
 function hideFlow() {
     if(!showOrHide)return;
     showOrHide=false;
@@ -325,21 +323,45 @@ function hideFlow() {
         .style("pointer-events", "all");
 }
 
+
+
 //TODO  sankey part
 var sankeySelection=d3.select("#ctrl")
     .insert("div")
-    .attr("width", 960)
-    .attr("height", 600);
-    // .style("display","none");
-var mySankey = echarts.init(sankeySelection.node());
-var mySankeyOption;
-mySankey.showLoading();
-$.get('./data/energy.json', function (data) {
-    mySankey.hideLoading();
+    .style("display","block");
+var mySankey = echarts.init(sankeySelection.node(),null,{width:960,height:600});
+console.log(mySankey);
+var showHideSankey=false;
 
-    mySankey.setOption(mySankeyOption = {
+function showSankey() {
+    if(showHideSankey)return;
+    showHideSankey=true;
+    var sankeyNodes=c_ul.selectAll("g.index")
+        .data()
+        .map(function (x) {
+            return {name:x.index};
+        });
+    sankeyNodes.unshift({name:0,value:originalNode.size()});
+    var sankeyLinks=treeNodesRelations.map(function (x) {
+        return {
+            source: x.parentIndex,
+            target: x.index,
+            value: function (x) {
+                return(
+                d3.select(
+                    c_ul.selectAll("svg")
+                    .nodes()[x.index-1]
+                )
+                    .selectAll("circle.selected")
+                    .size()
+                );
+            }(x)
+        };
+    });
+
+    mySankey.setOption({
         title: {
-            text: 'Sankey Diagram'
+            text: 'Sankey'
         },
         tooltip: {
             trigger: 'item',
@@ -348,8 +370,8 @@ $.get('./data/energy.json', function (data) {
         series: [
             {
                 type: 'sankey',
-                data: data.nodes,
-                links: data.links,
+                data: sankeyNodes,
+                links: sankeyLinks,
                 focusNodeAdjacency: 'allEdges',
                 itemStyle: {
                     normal: {
@@ -365,10 +387,12 @@ $.get('./data/energy.json', function (data) {
                 }
             }
         ]
-    });
-});
-if (mySankeyOption && typeof mySankeyOption === "object") {
-    mySankey.setOption(mySankeyOption, true);
+    },true);
+}
+function hideSankey(){
+    if(!showHideSankey)return;
+    showHideSankey=false;
+    mySankey.clear()
 }
 
 

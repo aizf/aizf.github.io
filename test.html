@@ -17,7 +17,7 @@
     // var data=d3.json("./data/energy.json");
     $.get('./data/energy.json', function (data) {
         myChart.hideLoading();
-
+        console.log(data);
         myChart.setOption(option = {
             title: {
                 text: 'Sankey Diagram'
@@ -47,10 +47,7 @@
                 }
             ]
         });
-    });
-    if (option && typeof option === "object") {
-        myChart.setOption(option, true);
-    }
+    },true);
 </script>
 </body>
 </html>
