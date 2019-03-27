@@ -105,23 +105,58 @@ function dragended(d) {
 
 var opacityNodes;
 var opacityLinks;
+var displayNodes;
+var displayLinks;
 function mouseover(d) {
+    opacityNodes=null;
+    opacityLinks=null;
     var thisId=d.id;
-    console.log(thisId);
+    // console.log(thisId);
     opacityLinks=link.filter(function (d) {
         return d.source.id!==thisId && d.target.id!==thisId;
     });
-    opacityNodes=node.filter();
-    // console.log(opacityNodes);
-    // console.log(opacityLinks);
+    displayLinks=link.filter(function (d) {
+        return d.source.id===thisId || d.target.id===thisId;
+    });
+    opacityNodes=node.filter(function (d) {
+        // console.log("d",d);
+        var displayLinksData=displayLinks.data();
+        for(var i in displayLinksData){
+            // console.log(i);
+            if(d.id===displayLinksData[i].source.id || d.id===displayLinksData[i].target.id){
+                return false;
+            }
+        }
+        return true;
+    });
+    displayNodes=node.filter(function (d) {
+        var displayLinksData=displayLinks.data();
+        for(var i in displayLinksData){
+            // console.log(i);
+            if(d.id===displayLinksData[i].source.id || d.id===displayLinksData[i].target.id){
+                return true;
+            }
+        }
+        return false;
+    });
+
     opacityNodes.style("fill-opacity",0);
     opacityNodes.style("stroke-opacity",0);
     opacityLinks.style("stroke-opacity",0);
+    displayNodes.append("text")
+        .attr("x", 6)
+        .attr("dy", "0.31em")
+        .text(d => d.id)
+        .clone(true).lower()
+        .attr("text-anchor","end")
+        .attr("stroke", "white");
 }
 function mouseout() {
     opacityNodes.style("fill-opacity",null);
     opacityNodes.style("stroke-opacity",null);
     opacityLinks.style("stroke-opacity",null);
+    displayNodes.selectAll("text")
+        .remove();
 }
 
 var saveData=function () {
