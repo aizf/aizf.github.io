@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="echarts.js" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/lib/echarts.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/lib/echarts.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>

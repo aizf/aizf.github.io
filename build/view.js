@@ -1,6 +1,6 @@
 'use strict';
 
-var svg = d3.select("#view > svg"),
+var svg = d3.select("#view > div > svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 

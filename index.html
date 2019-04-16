@@ -48,17 +48,21 @@
 </style>
 <body>
 
-<div id="view" style="border:1px solid #00ff11">
-    <svg width="960" height="600" style="border:1px solid #305dff"></svg>
+<div id="view" style="width:1100px;height:600px;border:1px solid #00ff11">
+    <div style="border:1px solid #ff5506;float:left">
+        <svg width="960" height="600" style="border:1px solid #305dff"></svg>
+    </div>
+    <div style="width:130px;height:600px;border:1px solid #ff5506;float:left">
+        <button onclick="saveData()">save</button>
+        <button onclick="showFlow()">showFlow</button>
+        <button onclick="hideFlow()">hideFlow</button>
+        <button onclick="showSankey()">showSankey</button>
+        <button onclick="hideSankey()">hideSankey</button>
+        <form>
+            <label><input type="checkbox" value="enBrush" checked>brush</label>
+        </form>
+    </div>
     <br/>
-    <button onclick="saveData()">save</button>
-    <button onclick="showFlow()">showFlow</button>
-    <button onclick="hideFlow()">hideFlow</button>
-    <button onclick="showSankey()">showSankey</button>
-    <button onclick="hideSankey()">hideSankey</button>
-    <form>
-        <label><input type="checkbox" value="enBrush" checked>brush</label>
-    </form>
 
 </div>
 <div id="ctrl" style="width:auto;height:auto;border:1px solid #fbff22"></div>

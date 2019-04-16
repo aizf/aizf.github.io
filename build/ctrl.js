@@ -15,7 +15,7 @@ var c_ul=d3.select("#ctrl")
 var thumbs_g;
 var showOrHide=false;
 
-$("#view > form > label > input[type=\"checkbox\"]")
+$("#view > div > form > label > input[type=\"checkbox\"]")
     .on("change",function () {
         if(this.checked){
             brushG.style("display","inline");
@@ -330,16 +330,20 @@ var sankeySelection=d3.select("#ctrl")
     .insert("div")
     .style("display","block");
 var mySankey = echarts.init(sankeySelection.node(),null,{width:960,height:600});
-console.log(mySankey);
+// console.log(mySankey);
 var showHideSankey=false;
 
 function showSankey() {
     if(showHideSankey)return;
     showHideSankey=true;
     var sankeyNodes=c_ul.selectAll("g.index")
-        .data()
+        .nodes()
         .map(function (x) {
-            return {name:x.index};
+            // console.log(this);
+            return {
+                name:d3.select(x).datum().index,
+                value:d3.select(x.parentNode).selectAll("circle.selected").size()
+            };
         });
     sankeyNodes.unshift({name:0,value:originalNode.size()});
     var sankeyLinks=treeNodesRelations.map(function (x) {
@@ -358,6 +362,9 @@ function showSankey() {
             }(x)
         };
     });
+
+    console.log(sankeyNodes);
+    console.log(sankeyLinks);
 
     mySankey.setOption({
         title: {
@@ -381,7 +388,7 @@ function showSankey() {
                 },
                 lineStyle: {
                     normal: {
-                        color: 'source',
+                        color: 'target',
                         curveness: 0.5
                     }
                 }
