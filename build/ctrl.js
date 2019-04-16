@@ -140,7 +140,7 @@ function importData() {
     });
     // console.log(linkData);
 
-    link = d3.select("#view > svg > g > g.links")
+    link = d3.select("#view > div > svg > g > g.links")
         .selectAll("line")
         .data(linkData)
         .enter()
