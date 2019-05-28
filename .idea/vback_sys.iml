@@ -18,5 +18,6 @@
     <orderEntry type="library" name="d3-sankey.js" level="project" />
     <orderEntry type="library" name="echarts.js" level="project" />
     <orderEntry type="library" name="jquery3.3.1.js" level="project" />
+    <orderEntry type="library" name="lodash.js" level="project" />
   </component>
 </module>

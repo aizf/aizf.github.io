@@ -53,6 +53,7 @@ d3.json(".\\data\\miserables.json", function(error, graph) {
 
     node.on("mouseover",mouseover);
     node.on("mouseout",mouseout);
+    node.on("click",clickSelect);
 
     simulation
         .nodes(node.data())
@@ -89,15 +90,27 @@ function brushed() {
 }
 
 function dragstarted(d) {
+    if(!dragable)return;
+    if(clickable){
+        let t=d3.select(this);
+        if(t.classed("selected")){
+            t.classed("selected",false);
+        }
+        else{
+            t.classed("selected",true);
+        }
+    }
     if (!d3.event.active) simulation.alphaTarget(0.3).restart();
     d.fx = d.x;
     d.fy = d.y;
 }
 function dragged(d) {
+    if(!dragable)return;
     d.fx = d3.event.x;
     d.fy = d3.event.y;
 }
 function dragended(d) {
+    if(!dragable)return;
     if (!d3.event.active) simulation.alphaTarget(0);
     d.fx = null;
     d.fy = null;
@@ -108,6 +121,7 @@ var opacityLinks;
 var displayNodes;
 var displayLinks;
 function mouseover(d) {
+    if(!mouseoverable)return;
     opacityNodes=null;
     opacityLinks=null;
     var thisId=d.id;
@@ -152,6 +166,7 @@ function mouseover(d) {
         .attr("stroke", "white");
 }
 function mouseout() {
+    if(!mouseoverable)return;
     opacityNodes.style("fill-opacity",null);
     opacityNodes.style("stroke-opacity",null);
     opacityLinks.style("stroke-opacity",null);
@@ -167,3 +182,15 @@ var saveData=function () {
         .classed("saved",true);
     createThumb(svg,saving);
 };
+
+function clickSelect() {
+    if(clickable&&!dragable){
+        let t=d3.select(this);
+        if(t.classed("selected")){
+            t.classed("selected",false);
+        }
+        else{
+            t.classed("selected",true);
+        }
+    }
+}

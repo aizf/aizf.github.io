@@ -7,6 +7,10 @@
     <script src="./lib/d3v4.js"></script>
     <script src="./lib/jquery3.3.1.js"></script>
     <script src="./lib/echarts.js"></script>
+    <script src="./lib/lodash.js"></script>
+    <script>
+        let log=console.log;
+    </script>
     <title>Title</title>
 </head>
 <style>
@@ -54,12 +58,23 @@
     </div>
     <div style="width:130px;height:600px;border:1px solid #ff5506;float:left">
         <button onclick="saveData()">save</button>
+        <br>
         <button onclick="showFlow()">showFlow</button>
+        <br>
         <button onclick="hideFlow()">hideFlow</button>
+        <br>
         <button onclick="showSankey()">showSankey</button>
+        <br>
         <button onclick="hideSankey()">hideSankey</button>
+        <br>
         <form>
+            <label><input type="checkbox" >click</label>
+            <br>
             <label><input type="checkbox" value="enBrush" checked>brush</label>
+            <br>
+            <label><input type="checkbox" >drag</label>
+            <br>
+            <label><input type="checkbox" >mouseover</label>
         </form>
     </div>
     <br/>

@@ -15,15 +15,6 @@ var c_ul=d3.select("#ctrl")
 var thumbs_g;
 var showOrHide=false;
 
-$("#view > div > form > label > input[type=\"checkbox\"]")
-    .on("change",function () {
-        if(this.checked){
-            brushG.style("display","inline");
-        }
-        else {
-            brushG.style("display","none");
-        }
-    });
 
 //缩略图的个数，及给新的编号
 var treeNodesSum=0;
@@ -37,6 +28,27 @@ var treeNodesRelations=[treeNodesRelation("",0)];
 //     return d3.select(this).attr("class") !== "saved";
 // })
 
+$("#view > div:nth-child(2) > form > label:nth-child(1) > input[type=\"checkbox\"]") //click
+    .on("change",function () {
+        clickable = !!this.checked;
+    });
+$("#view > div:nth-child(2) > form > label:nth-child(3) > input[type=\"checkbox\"]") //brush
+    .on("change",function () {
+        if(this.checked){
+            brushG.style("display","inline");
+        }
+        else {
+            brushG.style("display","none");
+        }
+    });
+$("#view > div:nth-child(2) > form > label:nth-child(5) > input[type=\"checkbox\"]") //drag
+    .on("change",function () {
+        dragable = !!this.checked;
+    });
+$("#view > div:nth-child(2) > form > label:nth-child(7) > input[type=\"checkbox\"]") //drag
+    .on("change",function () {
+        mouseoverable = !!this.checked;
+    });
 
 function createThumb(svg,saving) {
     var tNodes=$(

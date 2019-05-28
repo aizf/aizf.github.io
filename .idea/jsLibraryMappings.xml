@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="PROJECT" libraries="{d3-sankey.js, d3v4.js, d3v5.js, echarts.js, jquery3.3.1.js}" />
+    <file url="PROJECT" libraries="{d3-sankey.js, d3v4.js, d3v5.js, echarts.js, jquery3.3.1.js, lodash.js}" />
   </component>
 </project>

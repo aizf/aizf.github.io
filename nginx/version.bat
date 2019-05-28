@@ -1,0 +1,2 @@
+nginx -V
+pause
