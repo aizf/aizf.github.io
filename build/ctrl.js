@@ -1,97 +1,101 @@
 'use strict';
 
-var flowVisWidth=1800;
-var flowVisHeight=2400;
-var flowVis=d3.select("#ctrl")
+var flowVisWidth = 1800;
+var flowVisHeight = 2400;
+var flowVis = d3.select("#ctrl")
     .append("svg")
     .attr("width", flowVisWidth)
     .attr("height", flowVisHeight)
-    .style("display","none")
+    .style("display", "none")
     .style("pointer-events", "all");
-var flowVis_g=flowVis.append("g")
+var flowVis_g = flowVis.append("g")
     .style("pointer-events", "all");
-var c_ul=d3.select("#ctrl")
+var c_ul = d3.select("#ctrl")
     .append("ul");
 var thumbs_g;
-var showOrHide=false;
+var showOrHide = false;
 
 
 //缩略图的个数，及给新的编号
-var treeNodesSum=0;
-var treeNodesRelation=function (parentIndex,Index) {
-    return {"parentIndex":parentIndex,"index":Index};
+var treeNodesSum = 0;
+var treeNodesRelation = function (parentIndex, Index) {
+    return {
+        "parentIndex": parentIndex,
+        "index": Index
+    };
 };
 //缩略图的关系
-var treeNodesRelations=[treeNodesRelation("",0)];
+var treeNodesRelations = [treeNodesRelation("", 0)];
 
 // .filter(function () {
 //     return d3.select(this).attr("class") !== "saved";
 // })
 
 $("#view > div:nth-child(2) > form > label:nth-child(1) > input[type=\"checkbox\"]") //click
-    .on("change",function () {
+    .on("change", function () {
         clickable = !!this.checked;
     });
 $("#view > div:nth-child(2) > form > label:nth-child(3) > input[type=\"checkbox\"]") //brush
-    .on("change",function () {
-        if(this.checked){
-            brushG.style("display","inline");
-        }
-        else {
-            brushG.style("display","none");
+    .on("change", function () {
+        if (this.checked) {
+            brushG.style("display", "inline");
+        } else {
+            brushG.style("display", "none");
         }
     });
 $("#view > div:nth-child(2) > form > label:nth-child(5) > input[type=\"checkbox\"]") //drag
-    .on("change",function () {
+    .on("change", function () {
         dragable = !!this.checked;
     });
-$("#view > div:nth-child(2) > form > label:nth-child(7) > input[type=\"checkbox\"]") //drag
-    .on("change",function () {
+$("#view > div:nth-child(2) > form > label:nth-child(7) > input[type=\"checkbox\"]") //mouseover
+    .on("change", function () {
         mouseoverable = !!this.checked;
     });
 
-function createThumb(svg,saving) {
-    var tNodes=$(
+function createThumb(svg, saving) {
+    var tNodes = $(
         svg.selectAll("circle.display")
-            .nodes()
-            .map(function (x) {
-                return x.cloneNode(true);
-            })
+        .nodes()
+        .map(function (x) {
+            return x.cloneNode(true);
+        })
     );
-    treeNodesSum+=1;
+    treeNodesSum += 1;
 
     // console.log(tNodes);
 
-    var tLinks=$(
+    var tLinks = $(
         svg.selectAll("line")
-            .nodes()
-            .map(function (x) {
-                return x.cloneNode(true);
-            })
+        .nodes()
+        .map(function (x) {
+            return x.cloneNode(true);
+        })
     );
 
-    var littleVis=c_ul.append("li")
+    var littleVis = c_ul.append("li")
         .append("svg")
-        .on("click",importData)
-        .append("g")    //littleVis
+        .on("click", importData)
+        .append("g") //littleVis
         .style("pointer-events", "none");
 
     $(littleVis.node()).append(tLinks);
     $(littleVis.node()).append(tNodes);
     // console.log(littleVis.selectAll("circle"))
     littleVis.selectAll("circle")
-        .classed("display",false)
-        .classed("saved",false)
-        .classed("thumb",true);
+        .classed("display", false)
+        .classed("saved", false)
+        .classed("thumb", true);
 
     littleVis.attr("transform", "translate(0,0) scale(" + 0.3 + ")")
         .append("g")
-        .attr("class","visData")
-        .datum(saving);     //选取节点数据(d3-selection)绑定在 g > g.visData
+        .attr("class", "visData")
+        .datum(saving); //选取节点数据(d3-selection)绑定在 g > g.visData
 
     littleVis.append("g")
-        .attr("class","index")
-        .datum({"index":treeNodesSum}); //g > g.index
+        .attr("class", "index")
+        .datum({
+            "index": treeNodesSum
+        }); //g > g.index
 
     treeNodesRelations.push(
         treeNodesRelation(
@@ -103,47 +107,49 @@ function createThumb(svg,saving) {
 }
 
 function importData() {
-    thumbJustNow=d3.select(this);
+    thumbJustNow = d3.select(this);
 
     vis.selectAll(".selected")
-        .classed("selected",false);
+        .classed("selected", false);
     // console.log(d3.event);
-    var sCircles=d3.select(this).select("g > g.visData").datum();
+    var sCircles = d3.select(this).select("g > g.visData").datum();
 
     link.remove();
 
-    node.classed("display",false);
-    node.classed("saved",true);
+    node.classed("display", false);
+    node.classed("saved", true);
 
     node = sCircles
-        .classed("saved",false)
-        .classed("display",true)
+        .classed("saved", false)
+        .classed("display", true)
         .call(d3.drag()
             .on("start", dragstarted)
             .on("drag", dragged)
             .on("end", dragended));
 
     node.append("title")
-        .text(function(d) { return d.id; });
+        .text(function (d) {
+            return d.id;
+        });
 
     // console.log(link);
 
-    var linkData=originalLinkData.map(function (x) {
+    var linkData = originalLinkData.map(function (x) {
         return x;
     });
-    var ids=node.data()
+    var ids = node.data()
         .map(function (x) {
             return x.id;
         });
     // console.log(ids);
-    linkData=linkData.filter(function (_) {
+    linkData = linkData.filter(function (_) {
         // console.log(_.source.id,_.target.id);
-        var flag0=0;
-        var flag1=0;
-        for(var i in ids){
-            if(_.source.id ===ids[+i])flag0+=1;
-            if(_.target.id ===ids[+i])flag1+=1;
-            if (flag0>=1 && flag1>=1) {
+        var flag0 = 0;
+        var flag1 = 0;
+        for (var i in ids) {
+            if (_.source.id === ids[+i]) flag0 += 1;
+            if (_.target.id === ids[+i]) flag1 += 1;
+            if (flag0 >= 1 && flag1 >= 1) {
                 // console.log("true");
                 return true;
             }
@@ -170,26 +176,32 @@ function importData() {
 
 //flowInit
 var root;
-var nodeSize=[150,150];
+var nodeSize = [150, 150];
 var tree = d3.tree()
     .size([height - 400, width - 160])
-    .nodeSize([200,200])
-    .separation(function (a,b) {
+    .nodeSize([200, 200])
+    .separation(function (a, b) {
         return a.parent == b.parent ? 1.1 : 1.5;
     });
 var flowLink;
 var flowNode;
 
 function showFlow() {
-    if(showOrHide)return;
-    showOrHide=true;
-    flowVis.style("display","inline");  //TODO
+    if (showOrHide) return;
+    showOrHide = true;
+    flowVis.style("display", "inline"); //TODO
 
-    root=d3.stratify()
-        .id(function(d) { return d.index; })
-        .parentId(function(d) { return d.parentIndex; })
+    root = d3.stratify()
+        .id(function (d) {
+            return d.index;
+        })
+        .parentId(function (d) {
+            return d.parentIndex;
+        })
         (treeNodesRelations)
-        .sort(function(a, b) { return (a.height - b.height) || a.id.localeCompare(b.id); });
+        .sort(function (a, b) {
+            return (a.height - b.height) || a.id.localeCompare(b.id);
+        });
     console.log(root);
 
     tree(root);
@@ -200,49 +212,49 @@ function showFlow() {
         .enter().append("path")
         .attr("class", "flowLink")
         .attr("d", diagonal)
-        .style("fill","none")
-        .style("stroke","#555")
-        .style("stroke-opacity","0.4")
-        .style("stroke-width","1.5px");
+        .style("fill", "none")
+        .style("stroke", "#555")
+        .style("stroke-opacity", "0.4")
+        .style("stroke-width", "1.5px");
 
     flowNode = flowVis_g.selectAll(".flowNode")
         .data(root.descendants())
         .enter().append("g")
         .attr("class", "flowNode")
-        .attr("transform", function(d) {
-            return "translate(" + (d.y-nodeSize[1]/2) + "," + (d.x-nodeSize[0]/2) + ")";
+        .attr("transform", function (d) {
+            return "translate(" + (d.y - nodeSize[1] / 2) + "," + (d.x - nodeSize[0] / 2) + ")";
         })
         .style("pointer-events", "all");
     // console.log(node);
-    flowNode.append("rect")         //rect
+    flowNode.append("rect") //rect
         .attr("width", nodeSize[0])
         .attr("height", nodeSize[1])
         .style("fill", "white")
-        .style("stroke","#555")
-        .style("stroke-opacity","0.4")
-        .style("stroke-width","1px")
+        .style("stroke", "#555")
+        .style("stroke-opacity", "0.4")
+        .style("stroke-width", "1px")
         .style("pointer-events", "all")
-        .on("mouseover",function () {
+        .on("mouseover", function () {
             d3.select(this.parentNode)
                 .select("g")
                 .attr("transform", "translate(0,0) scale(" + 1.2 + ")");
         })
-        .on("mouseout",function (p) {
+        .on("mouseout", function (p) {
             d3.select(this.parentNode)
                 .select("g")
                 .attr("transform", "translate(0,0) scale(" + 0.3 + ")");
         });
     flowNode.append("text")
-        .text(function(d) {
+        .text(function (d) {
             return d.id;
         })
-        .attr("x",nodeSize[0]/2)
-        .attr("y",nodeSize[1]);
+        .attr("x", nodeSize[0] / 2)
+        .attr("y", nodeSize[1]);
 
-    thumbs_g=c_ul.selectAll("li > svg > g").nodes();
-    thumbs_g.sort(function (a,b) {
-        var x=d3.select(a).select("g.index").datum().index;
-        var y=d3.select(b).select("g.index").datum().index;
+    thumbs_g = c_ul.selectAll("li > svg > g").nodes();
+    thumbs_g.sort(function (a, b) {
+        var x = d3.select(a).select("g.index").datum().index;
+        var y = d3.select(b).select("g.index").datum().index;
         if (x < y) {
             return -1;
         } else if (x > y) {
@@ -251,31 +263,31 @@ function showFlow() {
             return 0;
         }
     });
-    flowNode.each(function (d,i) {
-        if(!i)return;
+    flowNode.each(function (d, i) {
+        if (!i) return;
         // console.log(this);
         // console.log(d);
-        var flag=d.id;
-        $(this).append(thumbs_g[flag-1]);
+        var flag = d.id;
+        $(this).append(thumbs_g[flag - 1]);
 
         //  "x,y"
-        var transform_node=
+        var transform_node =
             d3.select(this)
-                .attr("transform")
-                .match(/translate\((\S*)\)/)[1]
-                .split(",");
+            .attr("transform")
+            .match(/translate\((\S*)\)/)[1]
+            .split(",");
 
-        var transform_thumb=
-            d3.select(thumbs_g[flag-1])
-                .attr("transform")
-                .match(/scale\((\S*)\)/)[1];
+        var transform_thumb =
+            d3.select(thumbs_g[flag - 1])
+            .attr("transform")
+            .match(/scale\((\S*)\)/)[1];
 
-        d3.select(thumbs_g[flag-1])
-            .attr("transform","translate("+
-                (-(+transform_node[0]*+transform_thumb))
-                +","+
-                "0"
-                +") scale(" + 0.3 + ")");
+        d3.select(thumbs_g[flag - 1])
+            .attr("transform", "translate(" +
+                (-(+transform_node[0] * +transform_thumb)) +
+                "," +
+                "0" +
+                ") scale(" + 0.3 + ")");
 
         // console.log(transform_node);
         // console.log(transform_thumb);
@@ -283,7 +295,7 @@ function showFlow() {
     });
 
     console.log(findTop());
-    flowVis_g.attr("transform","translate(" + 80 + "," + -(findTop()-nodeSize[1]) + ")");
+    flowVis_g.attr("transform", "translate(" + 80 + "," + -(findTop() - nodeSize[1]) + ")");
 
     //////TODO
     // node.append("g")
@@ -300,74 +312,82 @@ function showFlow() {
 
 
     function diagonal(d) {
-        return "M" + d.y + "," + d.x
-            + "C" + (d.parent.y + 100) + "," + d.x
-            + " " + (d.parent.y + 100) + "," + d.parent.x
-            + " " + d.parent.y + "," + d.parent.x;
+        return "M" + d.y + "," + d.x +
+            "C" + (d.parent.y + 100) + "," + d.x +
+            " " + (d.parent.y + 100) + "," + d.parent.x +
+            " " + d.parent.y + "," + d.parent.x;
     }
+
     function findTop() {
-        var y=0;
+        var y = 0;
         flowNode.each(function (d) {
             // console.log(d.x,d.y);
-            if(+d.x<y){
-                y=+d.x;
+            if (+d.x < y) {
+                y = +d.x;
             }
         });
         return y;
     }
 }
+
 function hideFlow() {
-    if(!showOrHide)return;
-    showOrHide=false;
-    flowVis.style("display","none");  //TODO
+    if (!showOrHide) return;
+    showOrHide = false;
+    flowVis.style("display", "none"); //TODO
 
     d3.selectAll(thumbs_g)
         .attr("transform", "translate(0,0) scale(" + 0.3 + ")");
     c_ul.selectAll("li > svg")
-        .each(function (d,i) {
+        .each(function (d, i) {
             // console.log(i);
             // console.log(thumbs_g[i]);
             // console.log(this);
             $(this).append(thumbs_g[i]);
         });
     flowVis_g.remove();
-    flowVis_g=flowVis.append("g")
+    flowVis_g = flowVis.append("g")
         .style("pointer-events", "all");
 }
 
 
 
 //TODO  sankey part
-var sankeySelection=d3.select("#ctrl")
+var sankeySelection = d3.select("#ctrl")
     .insert("div")
-    .style("display","block");
-var mySankey = echarts.init(sankeySelection.node(),null,{width:960,height:600});
+    .style("display", "block");
+var mySankey = echarts.init(sankeySelection.node(), null, {
+    width: 960,
+    height: 600
+});
 // console.log(mySankey);
-var showHideSankey=false;
+var showHideSankey = false;
 
 function showSankey() {
-    if(showHideSankey)return;
-    showHideSankey=true;
-    var sankeyNodes=c_ul.selectAll("g.index")
+    if (showHideSankey) return;
+    showHideSankey = true;
+    var sankeyNodes = c_ul.selectAll("g.index")
         .nodes()
         .map(function (x) {
             // console.log(this);
             return {
-                name:d3.select(x).datum().index,
-                value:d3.select(x.parentNode).selectAll("circle.selected").size()
+                name: d3.select(x).datum().index,
+                value: d3.select(x.parentNode).selectAll("circle.selected").size()
             };
         });
-    sankeyNodes.unshift({name:0,value:originalNode.size()});
-    var sankeyLinks=treeNodesRelations.map(function (x) {
+    sankeyNodes.unshift({
+        name: 0,
+        value: originalNode.size()
+    });
+    var sankeyLinks = treeNodesRelations.map(function (x) {
         return {
             source: x.parentIndex,
             target: x.index,
             value: function (x) {
-                return(
-                d3.select(
-                    c_ul.selectAll("svg")
-                    .nodes()[x.index-1]
-                )
+                return (
+                    d3.select(
+                        c_ul.selectAll("svg")
+                        .nodes()[x.index - 1]
+                    )
                     .selectAll("circle.selected")
                     .size()
                 );
@@ -386,55 +406,29 @@ function showSankey() {
             trigger: 'item',
             triggerOn: 'mousemove'
         },
-        series: [
-            {
-                type: 'sankey',
-                data: sankeyNodes,
-                links: sankeyLinks,
-                focusNodeAdjacency: 'allEdges',
-                itemStyle: {
-                    normal: {
-                        borderWidth: 1,
-                        borderColor: '#aaa'
-                    }
-                },
-                lineStyle: {
-                    normal: {
-                        color: 'target',
-                        curveness: 0.5
-                    }
+        series: [{
+            type: 'sankey',
+            data: sankeyNodes,
+            links: sankeyLinks,
+            focusNodeAdjacency: 'allEdges',
+            itemStyle: {
+                normal: {
+                    borderWidth: 1,
+                    borderColor: '#aaa'
+                }
+            },
+            lineStyle: {
+                normal: {
+                    color: 'target',
+                    curveness: 0.5
                 }
             }
-        ]
-    },true);
+        }]
+    }, true);
 }
-function hideSankey(){
-    if(!showHideSankey)return;
-    showHideSankey=false;
+
+function hideSankey() {
+    if (!showHideSankey) return;
+    showHideSankey = false;
     mySankey.clear()
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

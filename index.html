@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <!--<script src="https://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.js"></script>-->
-    <!--<script src="https://d3js.org/d3.v4.js"></script>-->
     <script src="./lib/d3v4.js"></script>
     <script src="./lib/jquery3.3.1.js"></script>
     <script src="./lib/echarts.js"></script>
     <script src="./lib/lodash.js"></script>
     <script>
-        let log=console.log;
+        let log = console.log;      // FIXME
     </script>
     <title>Title</title>
 </head>
 <style>
-
     line {
         stroke: #aaa;
         /*fill-opacity: 0.9;*/
@@ -22,7 +20,8 @@
 
     circle {
         pointer-events: all;
-        stroke: none;       /*描边*/
+        stroke: none;
+        /*描边*/
         /*fill-opacity: 0.6;*/
     }
 
@@ -39,9 +38,7 @@
         display: none;
     }
 
-    .thumb {
-
-    }
+    .thumb {}
 
     /*.nodes :hover circle {*/
     /*pointer-events: all;*/
@@ -50,40 +47,42 @@
     /*fill:red;*/
     /*}*/
 </style>
+
 <body>
 
-<div id="view" style="width:1100px;height:600px;border:1px solid #00ff11">
-    <div style="border:1px solid #ff5506;float:left">
-        <svg width="960" height="600" style="border:1px solid #305dff"></svg>
-    </div>
-    <div style="width:130px;height:600px;border:1px solid #ff5506;float:left">
-        <button onclick="saveData()">save</button>
-        <br>
-        <button onclick="showFlow()">showFlow</button>
-        <br>
-        <button onclick="hideFlow()">hideFlow</button>
-        <br>
-        <button onclick="showSankey()">showSankey</button>
-        <br>
-        <button onclick="hideSankey()">hideSankey</button>
-        <br>
-        <form>
-            <label><input type="checkbox" >click</label>
+    <div id="view" style="width:1100px;height:600px;border:1px solid #00ff11">
+        <div style="border:1px solid #ff5506;float:left">
+            <svg width="960" height="600" style="border:1px solid #305dff"></svg>
+        </div>
+        <div style="width:130px;height:600px;border:1px solid #ff5506;float:left">
+            <button onclick="saveData()">save</button>
             <br>
-            <label><input type="checkbox" value="enBrush" checked>brush</label>
+            <button onclick="showFlow()">showFlow</button>
             <br>
-            <label><input type="checkbox" >drag</label>
+            <button onclick="hideFlow()">hideFlow</button>
             <br>
-            <label><input type="checkbox" >mouseover</label>
-        </form>
-    </div>
-    <br/>
+            <button onclick="showSankey()">showSankey</button>
+            <br>
+            <button onclick="hideSankey()">hideSankey</button>
+            <br>
+            <form>
+                <label><input type="checkbox">click</label>
+                <br>
+                <label><input type="checkbox" value="enBrush" checked>brush</label>
+                <br>
+                <label><input type="checkbox">drag</label>
+                <br>
+                <label><input type="checkbox">mouseover</label>
+            </form>
+        </div>
+        <br />
 
-</div>
-<div id="ctrl" style="width:auto;height:auto;border:1px solid #fbff22"></div>
+    </div>
+    <div id="ctrl" style="width:auto;height:auto;border:1px solid #fbff22"></div>
 
 </body>
-<script src="build/vars.js"></script>
-<script src="build/view.js"></script>
-<script src="build/ctrl.js"></script>
+<script src="./build/vars.js"></script>
+<script src="./build/view.js"></script>
+<script src="./build/ctrl.js"></script>
+
 </html>
