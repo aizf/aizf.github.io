@@ -26,58 +26,56 @@ var brush = d3.brush()
     ])
     .on("start brush", brushed);
 
-d3.json(".\\data\\miserables.json", function (error, graph) {
-    if (error) throw error;
+d3.json(".\\data\\miserables.json")
+    .then(res=> {
+        // log(res);
+        originalLinkData = res.links;
 
-    // console.log(graph);
-    originalLinkData = graph.links;
+        link = vis.append("g")
+            .attr("class", "links")
+            .selectAll("line")
+            .data(originalLinkData)
+            .enter()
+            .append("line");
 
-    link = vis.append("g")
-        .attr("class", "links")
-        .selectAll("line")
-        .data(originalLinkData)
-        .enter()
-        .append("line");
+        originalNode =
+            node = vis.append("g")
+                .attr("class", "nodes")
+                .selectAll("circle")
+                .data(res.nodes)
+                .enter()
+                .append("circle")
+                .attr("r", 4)
+                .attr("class", "display")
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended));
 
-    originalNode =
-        node = vis.append("g")
-        .attr("class", "nodes")
-        .selectAll("circle")
-        .data(graph.nodes)
-        .enter()
-        .append("circle")
-        .attr("r", 4)
-        .attr("class", "display")
-        .call(d3.drag()
-            .on("start", dragstarted)
-            .on("drag", dragged)
-            .on("end", dragended));
+        node.on("mouseover", mouseover);
+        node.on("mouseout", mouseout);
+        node.on("click", clickSelect);
 
-    node.append("title")
-        .text(function (d) {
-            return d.id;
-        });
+        node.append("title")
+            .text(function (d) {
+                return d.id;
+            });
 
-    node.on("mouseover", mouseover);
-    node.on("mouseout", mouseout);
-    node.on("click", clickSelect);
+        simulation
+            .nodes(node.data())
+            .on("tick", ticked);
 
-    simulation
-        .nodes(node.data())
-        .on("tick", ticked);
+        simulation.force("link")
+            .links(link.data());
 
-    simulation.force("link")
-        .links(link.data());
-
-    brushG = vis.append("g")
-        .call(brush)
-        .attr("class", "brush")
-        .call(brush.move, [
-            [0, 0],
-            [1, 1]
-        ]);
-
-});
+        brushG = vis.append("g")
+            .call(brush)
+            .attr("class", "brush")
+            .call(brush.move, [
+                [0, 0],
+                [1, 1]
+            ]);
+    });
 
 function ticked() {
     link
@@ -173,7 +171,7 @@ function mouseover(d) {
         return false;
     });
 
-    log(opacityNodes);
+    // log(opacityNodes);
 
     opacityNodes.style("fill-opacity", 0);
     opacityNodes.style("stroke-opacity", 0);

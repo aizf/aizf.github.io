@@ -119,6 +119,7 @@ function importData() {
     node.classed("display", false);
     node.classed("saved", true);
 
+    //  TODO 给node重新添加事件
     node = sCircles
         .classed("saved", false)
         .classed("display", true)
@@ -126,6 +127,10 @@ function importData() {
             .on("start", dragstarted)
             .on("drag", dragged)
             .on("end", dragended));
+
+    node.on("mouseover", mouseover);
+    node.on("mouseout", mouseout);
+    node.on("click", clickSelect);
 
     node.append("title")
         .text(function (d) {
