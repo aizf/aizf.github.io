@@ -1,2 +1,2 @@
 nginx -s quit
-pause
+@pause

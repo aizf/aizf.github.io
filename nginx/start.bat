@@ -1,2 +1,2 @@
 start nginx
-pause
+@pause
