@@ -1,2 +1,0 @@
-nginx -s quit
-@pause
