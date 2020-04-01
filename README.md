@@ -2,4 +2,4 @@
 
 ## exploratory-analysis-system
 
-<https://aizf.github.io/exploratory-analysis-system/#/Data>
+<https://aizf.github.io/exploratory-analysis-system/>
