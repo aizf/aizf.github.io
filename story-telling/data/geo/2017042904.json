@@ -1,0 +1,365 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Matt Caffrey",
+                "screen_name": "matthewbcaffrey",
+                "created_at": "2017-04-29T04:09:59+00:00Z",
+                "text": "Tomorrow we march to #ProtectCreation! #climatemarch #PeoplesClimate #peoplesclimatemarch #LaudatoSi #Resist https://t.co/RLv4lhXrwx",
+                "profile_image_url": "http://pbs.twimg.com/profile_images/1222718922568368128/fMPzGteV_normal.jpg",
+                "url": "http://twitter.com/matthewbcaffrey/status/858171478738698240"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -77.119401,
+                            38.801826
+                        ],
+                        [
+                            -76.909396,
+                            38.801826
+                        ],
+                        [
+                            -76.909396,
+                            38.9953797
+                        ],
+                        [
+                            -77.119401,
+                            38.9953797
+                        ],
+                        [
+                            -77.119401,
+                            38.801826
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Molly Greece",
+                "screen_name": "GreeceMolly",
+                "created_at": "2017-04-29T04:38:57+00:00Z",
+                "text": "Getting creative #climatemarch #hudsonriver @MarchOnNY https://t.co/eojx0QXG6j",
+                "profile_image_url": "http://pbs.twimg.com/profile_images/1224757568180051968/iolVn59i_normal.jpg",
+                "url": "http://twitter.com/GreeceMolly/status/858178771358289920"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -73.946553,
+                            41.168161
+                        ],
+                        [
+                            -73.847928,
+                            41.168161
+                        ],
+                        [
+                            -73.847928,
+                            41.334491
+                        ],
+                        [
+                            -73.946553,
+                            41.334491
+                        ],
+                        [
+                            -73.946553,
+                            41.168161
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Lyla",
+                "screen_name": "lyla_di",
+                "created_at": "2017-04-29T04:44:38+00:00Z",
+                "text": "We need to stand together to protect our climate, our health, and our communities. Join me April 29th https://t.co/TgfNJHHeV0 #climatemarch",
+                "profile_image_url": "http://pbs.twimg.com/profile_images/1229095949391335424/_ObDQmsT_normal.jpg",
+                "url": "http://twitter.com/lyla_di/status/858180200638623744"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -77.011535,
+                            39.017613
+                        ],
+                        [
+                            -76.9620787,
+                            39.017613
+                        ],
+                        [
+                            -76.9620787,
+                            39.065781
+                        ],
+                        [
+                            -77.011535,
+                            39.065781
+                        ],
+                        [
+                            -77.011535,
+                            39.017613
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Alejandro Alvarez",
+                "screen_name": "aletweetsnews",
+                "created_at": "2017-04-29T04:47:55+00:00Z",
+                "text": "More from @werkforpeace's #ResisDANCE ahead of the #ClimateMarch: https://t.co/2HW2h79bE0",
+                "profile_image_url": "http://pbs.twimg.com/profile_images/877607909198266369/qJrDS0yX_normal.jpg",
+                "url": "http://twitter.com/aletweetsnews/status/858181024156717056"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -77.119401,
+                            38.801826
+                        ],
+                        [
+                            -76.909396,
+                            38.801826
+                        ],
+                        [
+                            -76.909396,
+                            38.9953797
+                        ],
+                        [
+                            -77.119401,
+                            38.9953797
+                        ],
+                        [
+                            -77.119401,
+                            38.801826
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Darling Nky",
+                "screen_name": "thebeecharmer97",
+                "created_at": "2017-04-29T04:56:41+00:00Z",
+                "text": "#climatemarch #snacks #granola #clifbars #freshfruit #cleaneating #strawberries #pineapple\u2026 https://t.co/LY4DlmufCD",
+                "profile_image_url": "http://pbs.twimg.com/profile_images/1230640879469236228/xsDOcpgb_normal.jpg",
+                "url": "http://twitter.com/thebeecharmer97/status/858183231379836929"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -77.22692352,
+                    38.92092501
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Clean Air Carolina",
+                "screen_name": "cleanairNC",
+                "created_at": "2017-04-29T05:00:48+00:00Z",
+                "text": "Full bus from #Charlotte to #DC with @SierraClub for climate, jobs, and justice! @Peoples_Climate #climatemarch #CLT https://t.co/dEqNpA5Dt8",
+                "profile_image_url": "http://pbs.twimg.com/profile_images/976877999067983873/ANDrYdEm_normal.jpg",
+                "url": "http://twitter.com/cleanairNC/status/858184269730066433"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -81.046876,
+                            35.001706
+                        ],
+                        [
+                            -80.646695,
+                            35.001706
+                        ],
+                        [
+                            -80.646695,
+                            35.416412
+                        ],
+                        [
+                            -81.046876,
+                            35.416412
+                        ],
+                        [
+                            -81.046876,
+                            35.001706
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Jeroen\ud83c\uddf3\ud83c\uddf1\ud83c\uddea\ud83c\udde6",
+                "screen_name": "kevbrijer",
+                "created_at": "2017-04-29T05:13:23+00:00Z",
+                "text": "@SPnl @valk1955 Geen #climatemarch  maar march om steun aan #SOROS te en #EU te tonen. U blijft toch ook thuis. Stop #SOROS @Stop_The_EU #nexit",
+                "profile_image_url": "http://pbs.twimg.com/profile_images/1099052838498562048/J0O8YzN-_normal.jpg",
+                "url": "http://twitter.com/kevbrijer/status/858187435104251904"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            5.0559841,
+                            52.3023152
+                        ],
+                        [
+                            5.3792667,
+                            52.3023152
+                        ],
+                        [
+                            5.3792667,
+                            52.5920368
+                        ],
+                        [
+                            5.0559841,
+                            52.5920368
+                        ],
+                        [
+                            5.0559841,
+                            52.3023152
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Nancy Roberts (\u29d6)",
+                "screen_name": "leapingotter",
+                "created_at": "2017-04-29T05:32:45+00:00Z",
+                "text": "Trump admin conducts info warfare on the American people #climatemarch #climatechange https://t.co/MPX1QzfPSI",
+                "profile_image_url": "http://pbs.twimg.com/profile_images/822638683874590720/QXFwByUV_normal.jpg",
+                "url": "http://twitter.com/leapingotter/status/858192306893053952"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -122.514926,
+                            37.708075
+                        ],
+                        [
+                            -122.357031,
+                            37.708075
+                        ],
+                        [
+                            -122.357031,
+                            37.833238
+                        ],
+                        [
+                            -122.514926,
+                            37.833238
+                        ],
+                        [
+                            -122.514926,
+                            37.708075
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Mett\u0101 Creative",
+                "screen_name": "mettamakers",
+                "created_at": "2017-04-29T05:40:38+00:00Z",
+                "text": "How can we improve our twitter game? If you guys ran an envio party company, what would you do to get people hyped abt it? #climatemarch",
+                "profile_image_url": "http://pbs.twimg.com/profile_images/1026948674486591488/8KPXDDzO_normal.jpg",
+                "url": "http://twitter.com/mettamakers/status/858194291813953536"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -77.119401,
+                            38.801826
+                        ],
+                        [
+                            -76.909396,
+                            38.801826
+                        ],
+                        [
+                            -76.909396,
+                            38.9953797
+                        ],
+                        [
+                            -77.119401,
+                            38.9953797
+                        ],
+                        [
+                            -77.119401,
+                            38.801826
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "April big cannons\ud83c\uddfa\ud83c\uddf8",
+                "screen_name": "hottdoggheavan",
+                "created_at": "2017-04-29T05:45:27+00:00Z",
+                "text": "@bababooeylover @cenkuygur @RubenStuddard @RyanSeacrest @AlbertBrooks #EastEnders #vegasuncorkd #startup #climatemarch #cenkbowelobstruction https://t.co/4Rymd7j9lu",
+                "profile_image_url": "http://pbs.twimg.com/profile_images/453212365819871232/arh6XuyP_normal.jpeg",
+                "url": "http://twitter.com/hottdoggheavan/status/858195504898887681"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -121.340149,
+                            38.839106
+                        ],
+                        [
+                            -121.222598,
+                            38.839106
+                        ],
+                        [
+                            -121.222598,
+                            38.911502
+                        ],
+                        [
+                            -121.340149,
+                            38.911502
+                        ],
+                        [
+                            -121.340149,
+                            38.839106
+                        ]
+                    ]
+                ]
+            }
+        }
+    ]
+}
